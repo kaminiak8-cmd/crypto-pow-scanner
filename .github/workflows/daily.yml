@@ -21,10 +21,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           CG_KEY: ${{ secrets.CG_KEY }}
-      - run: python github_new.py
+      - run: python new_projects.py
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+          CG_KEY: ${{ secrets.CG_KEY }}
       - run: |
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
