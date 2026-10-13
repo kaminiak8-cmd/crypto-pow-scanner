@@ -21,10 +21,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           CG_KEY: ${{ secrets.CG_KEY }}
-      - run: python discover.py
-        continue-on-error: true
-        env:
-          WTM_TOKEN: ${{ secrets.WTM_TOKEN }}
       - run: python github_new.py
         continue-on-error: true
         env:
