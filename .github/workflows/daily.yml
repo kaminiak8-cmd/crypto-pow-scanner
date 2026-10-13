@@ -10,6 +10,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -20,6 +21,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           CG_KEY: ${{ secrets.CG_KEY }}
+      - run: python discover.py
+        continue-on-error: true
+        env:
+          WTM_TOKEN: ${{ secrets.WTM_TOKEN }}
+      - run: python github_new.py
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
       - run: |
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
