@@ -111,6 +111,34 @@ def looks_like_coin(desc, flags):
         return False
     return any(g in d for g in GOOD) or any(g in flags for g in GOOD_FLAGS)
 
+def readme_text(full):
+    h = dict(GH_H)
+    h["Accept"] = "application/vnd.github.raw+json"
+    r = get(f"https://api.github.com/repos/{full}/readme", headers=h)
+    if r is None or r.status_code != 200:
+        return ""
+    return r.text[:30000].lower()
+
+def early_profile(created, has_miner, commits, authors, text, readme):
+    t = text + " " + readme
+    age = (TODAY - dt.date.fromisoformat(created[:10])).days
+    f = {
+        "miner": bool(has_miner),
+        "pool": bool(re.search(r"stratum|mining pool|\bpool\b", t)),
+        "mainnet": "mainnet" in t,
+        "paper": bool(re.search(r"white\s?paper|arxiv|\bpaper\b", t)),
+        "fair": bool(re.search(r"fair launch|fair-launch|no pre-?mine|without pre-?mine|100% mined", t)),
+        "red": bool(re.search(r"pre-?sale|\bico\b|airdrop|guaranteed|passive income|\bapy\b|\broi\b", t)),
+        "proto": bool(re.search(r"pre-launch|prototype|proof of concept|simulation|educational", t)),
+    }
+    s = 2 if age <= 120 else (1 if age <= 270 else 0)
+    s += 3 * f["miner"] + 2 * f["pool"] + 2 * f["mainnet"] + 2 * f["paper"] + 2 * f["fair"]
+    s += int(authors >= 2) + int(commits >= 20)
+    s -= 3 * f["red"] + 2 * f["proto"]
+    if "testnet" in t and not f["mainnet"]:
+        s -= 2
+    return s, age, f
+
 wtm = wtm_names()
 cg = cg_names()
 
@@ -150,6 +178,10 @@ for it in items:
     desc = it.get("description") or ""
     text = (desc + " " + " ".join(it.get("topics", []))).lower()
     flags = ",".join(f for f in FLAGS if f in text)
+    cand = looks_like_coin(desc, flags) and in_wtm != True and in_cg != True
+    early, age, ef = 0, None, {}
+    if cand:
+        early, age, ef = early_profile(it["created_at"], has_miner, commits, authors, text, readme_text(full))
     if full not in seen:
         seen[full] = TODAY.isoformat()
     rows.append({
@@ -159,6 +191,8 @@ for it in items:
         "stars": it["stargazers_count"], "commits_30d": commits, "authors_30d": authors,
         "miner_release": has_miner, "release_assets": n_assets,
         "score": commits * max(authors, 1) + it["stargazers_count"] + (20 if has_miner else 0),
+        "early_score": early, "age_days": age,
+        "early_flags": ",".join(k for k, v in ef.items() if v),
         "created": it["created_at"][:10], "pushed": it["pushed_at"][:10],
         "flags": flags,
         "new_today": (not first_run) and seen[full] == TODAY.isoformat(),
@@ -186,6 +220,13 @@ with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write("## Nowe dzisiaj\n\n")
     n = unknown[unknown.new_today]
     f.write(n[cols].to_markdown(index=False) if len(n) else "Brak nowych (albo pierwsze uruchomienie).")
+    f.write("\n\n## Wczesne okazje (profil Pearl)\n\n")
+    f.write("Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, "
+            "autorzy i commity; minus za presale/ICO, prototyp, sam testnet. "
+            "To heurystyka z README, nie ocena inwestycyjna.\n\n")
+    ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
+    early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
+    f.write(early_df.head(15)[ec].to_markdown(index=False) if len(early_df) else "Brak.")
     f.write("\n\n## Ranking kandydatow\n\n")
     f.write(unknown.head(30)[cols].to_markdown(index=False) if len(unknown) else "Brak.")
 print("Gotowe:", len(df), "wszystkich,", len(unknown), "kandydatow", flush=True)
