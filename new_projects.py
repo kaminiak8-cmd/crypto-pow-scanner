@@ -12,6 +12,8 @@ CREATED = (TODAY - dt.timedelta(days=270)).isoformat()
 PUSHED = (TODAY - dt.timedelta(days=21)).isoformat()
 SINCE30 = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
 STATE = "data/new_projects_seen.json"
+NOTIFIED = "data/early_notified.json"
+NOTIFY_MIN = 8
 MAX_REPOS = 80
 
 STOP = {"coin", "coins", "network", "chain", "core", "node", "miner", "mining", "pool",
@@ -23,6 +25,10 @@ NOISE = ["captcha", "anti-bot", "antibot", "bot ", "bots", "ddos", "waf", "firew
 GOOD = ["blockchain", "layer-1", "layer 1", "l1", "coin", "ledger", "mining", "miner",
         "mainnet", "testnet", "chain"]
 GOOD_FLAGS = ("mainnet", "miner", "stratum", "randomx", "kawpow", "l1", "layer1")
+TOOLING = re.compile(r"miner for|mining software|stratum server|pool software|curated list|awesome|"
+                     r"contributions to|android|\bios\b|simulation|educational|tutorial|wallet app|"
+                     r"explorer for|\bsdk\b")
+OWN_CHAIN = re.compile(r"layer[- ]?1|\bl1\b|blockchain|\bchain\b|fork of|independent")
 
 QUERIES = [
     "proof-of-work mainnet miner",
@@ -178,7 +184,8 @@ for it in items:
     desc = it.get("description") or ""
     text = (desc + " " + " ".join(it.get("topics", []))).lower()
     flags = ",".join(f for f in FLAGS if f in text)
-    cand = looks_like_coin(desc, flags) and in_wtm != True and in_cg != True
+    cand = (looks_like_coin(desc, flags) and not TOOLING.search(text) and bool(OWN_CHAIN.search(text))
+            and in_wtm != True and in_cg != True)
     early, age, ef = 0, None, {}
     if cand:
         early, age, ef = early_profile(it["created_at"], has_miner, commits, authors, text, readme_text(full))
@@ -210,6 +217,8 @@ df.to_csv(f"data/new_projects-{TODAY.isoformat()}.csv", index=False)
 
 cols = ["repo", "stars", "commits_30d", "authors_30d", "miner_release", "flags", "description"]
 unknown = df[(df.in_wtm != True) & (df.in_coingecko != True) & (df.coin_like)]
+ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
+early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
 
 with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write(f"# Projekty bez WTM i bez CoinGecko - {TODAY}\n\n")
@@ -222,11 +231,23 @@ with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write(n[cols].to_markdown(index=False) if len(n) else "Brak nowych (albo pierwsze uruchomienie).")
     f.write("\n\n## Wczesne okazje (profil Pearl)\n\n")
     f.write("Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, "
-            "autorzy i commity; minus za presale/ICO, prototyp, sam testnet. "
-            "To heurystyka z README, nie ocena inwestycyjna.\n\n")
-    ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
-    early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
+            "autorzy i commity; minus za presale/ICO, prototyp, sam testnet. Narzedzia i dodatki "
+            "do istniejacych lancuchow sa odrzucane. To heurystyka z README, nie ocena inwestycyjna.\n\n")
     f.write(early_df.head(15)[ec].to_markdown(index=False) if len(early_df) else "Brak.")
     f.write("\n\n## Ranking kandydatow\n\n")
     f.write(unknown.head(30)[cols].to_markdown(index=False) if len(unknown) else "Brak.")
-print("Gotowe:", len(df), "wszystkich,", len(unknown), "kandydatow", flush=True)
+
+if os.path.exists("early_issue.md"):
+    os.remove("early_issue.md")
+notified = json.load(open(NOTIFIED)) if os.path.exists(NOTIFIED) else {}
+fresh = early_df[(early_df.early_score >= NOTIFY_MIN) & (~early_df.repo.isin(list(notified)))]
+if len(fresh):
+    top = fresh.head(5)
+    with open("early_issue.md", "w", encoding="utf-8") as g:
+        g.write(f"Nowe wczesne projekty PoW ({TODAY}), wynik >= {NOTIFY_MIN}. "
+                "Heurystyka z README, nie ocena inwestycyjna.\n\n")
+        g.write(top[ec + ["url"]].to_markdown(index=False))
+    for name in top.repo:
+        notified[name] = TODAY.isoformat()
+    json.dump(notified, open(NOTIFIED, "w"), indent=1)
+print("Gotowe:", len(df), "wszystkich,", len(unknown), "kandydatow,", len(fresh), "do powiadomienia", flush=True)
