@@ -11,7 +11,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,6 +35,19 @@ jobs:
         run: |
           gh issue create --title "Wczesne projekty PoW $(date +%F)" --body-file early_issue.md
           rm early_issue.md
+      - name: Early watch (arXiv and pre-launch repos)
+        run: python early_watch.py
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Notify about very early signals
+        if: hashFiles('watch_issue.md') != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Bardzo wczesne sygnaly PoW $(date +%F)" --body-file watch_issue.md
+          rm watch_issue.md
       - run: |
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
