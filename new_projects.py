@@ -130,7 +130,7 @@ def early_profile(created, has_miner, commits, authors, text, readme):
     age = (TODAY - dt.date.fromisoformat(created[:10])).days
     f = {
         "miner": bool(has_miner),
-        "pool": bool(re.search(r"stratum|mining pool|\bpool\b", t)),
+        "pool": bool(re.search(r"stratum|mining[- ]?pool", t)),
         "mainnet": "mainnet" in t,
         "paper": bool(re.search(r"white\s?paper|arxiv|\bpaper\b", t)),
         "fair": bool(re.search(r"fair launch|fair-launch|no pre-?mine|without pre-?mine|100% mined", t)),
