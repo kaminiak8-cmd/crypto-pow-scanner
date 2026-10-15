@@ -13,16 +13,16 @@ Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair lau
 | repo                              |   early_score |   age_days |   stars |   commits_30d | early_flags             | description                                                                                |
 |:----------------------------------|--------------:|-----------:|--------:|--------------:|:------------------------|:-------------------------------------------------------------------------------------------|
 | pars5555/pcoin                    |            12 |         75 |       9 |           100 | miner,pool,mainnet,fair | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| e-1-s-4/qeuph                     |             8 |         19 |       2 |            14 | pool,mainnet,paper      | A Quantum-Resistant Blockchain Protocol                                                    |
 | jokeez/hackme                     |             7 |        150 |      23 |           100 | pool,paper              | Useful PoW mining + B2B WASM fuzz orders. HTTP pool at hackme.tech (not Stratum). GPU, Hac |
-| blackbeardONE/QSDM                |             6 |        176 |       3 |            75 | pool,mainnet            | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
+| e-1-s-4/qeuph                     |             6 |         19 |       2 |            14 | mainnet,paper           | A Quantum-Resistant Blockchain Protocol                                                    |
 | ram0verflow/ram0verflow           |             5 |         39 |      67 |           100 | paper                   | A small Bitcoin-like chain whose canonical ledger is my README. Proof of work is subset-su |
-| Bitcoboost/bitcoboost-core        |             5 |         55 |       2 |             4 | mainnet,paper,fair,red  | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
 | proof-native/parano1d             |             5 |         34 |      10 |            29 | mainnet                 | Proof-native Layer 1 ordered by proof of work. State validated from genesis in O(1). Prova |
-| SHalimoosavi/SAYANJALI-BLOCKCHAIN |             4 |         96 |       3 |            18 | pool,mainnet,proto      | SAYANJALI BLOCKCHAIN is an independently engineered Layer-1 blockchain infrastructure buil |
+| Bitcoboost/bitcoboost-core        |             5 |         55 |       2 |             4 | mainnet,paper,fair,red  | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
+| blackbeardONE/QSDM                |             4 |        176 |       3 |            75 | mainnet                 | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
 | ignotusnemo/parano1d              |             4 |        169 |      41 |            29 | mainnet                 | Proof-native Layer 1 ordered by proof of work. State validated from genesis in O(1). Prova |
 | ChronoCoders/ferrous              |             3 |        185 |       5 |             0 | mainnet                 | A Rust-built Layer 1 blockchain with RandomX PoW, BIP39 wallets, Shamir recovery, and post |
 | iuna-labs/iuna                    |             2 |         81 |       2 |            99 | mainnet,red             | L1 cryptocurrency designed to keep power temporary.                                        |
+| SHalimoosavi/SAYANJALI-BLOCKCHAIN |             2 |         96 |       3 |            18 | mainnet,proto           | SAYANJALI BLOCKCHAIN is an independently engineered Layer-1 blockchain infrastructure buil |
 
 ## Ranking kandydatow
 
