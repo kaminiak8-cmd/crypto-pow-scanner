@@ -8,23 +8,19 @@ Brak nowych (albo pierwsze uruchomienie).
 
 ## Wczesne okazje (profil Pearl)
 
-Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, autorzy i commity; minus za presale/ICO, prototyp, sam testnet. To heurystyka z README, nie ocena inwestycyjna.
+Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, autorzy i commity; minus za presale/ICO, prototyp, sam testnet. Narzedzia i dodatki do istniejacych lancuchow sa odrzucane. To heurystyka z README, nie ocena inwestycyjna.
 
 | repo                              |   early_score |   age_days |   stars |   commits_30d | early_flags             | description                                                                                |
 |:----------------------------------|--------------:|-----------:|--------:|--------------:|:------------------------|:-------------------------------------------------------------------------------------------|
 | pars5555/pcoin                    |            12 |         75 |       9 |           100 | miner,pool,mainnet,fair | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| profinch/bumblebeam               |            10 |          9 |       3 |           100 | miner,pool,mainnet      | BumbleBeam - open-source contributions to the Beam ($BEAM) privacy blockchain as a communi |
 | e-1-s-4/qeuph                     |             8 |         19 |       2 |            14 | pool,mainnet,paper      | A Quantum-Resistant Blockchain Protocol                                                    |
 | jokeez/hackme                     |             7 |        150 |      23 |           100 | pool,paper              | Useful PoW mining + B2B WASM fuzz orders. HTTP pool at hackme.tech (not Stratum). GPU, Hac |
 | blackbeardONE/QSDM                |             6 |        176 |       3 |            75 | pool,mainnet            | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| overbuildlabs/OverMobile          |             6 |        204 |       4 |             2 | miner,pool              | Kaspa kHeavyHash miner for Android with OverManager integration                            |
-| cashstratum/cashstratum           |             6 |         40 |       2 |             4 | pool,mainnet            | CashStratum — open-source Bitcoin Cash (BCH) stratum server and solo mining pool software. |
+| ram0verflow/ram0verflow           |             5 |         39 |      67 |           100 | paper                   | A small Bitcoin-like chain whose canonical ledger is my README. Proof of work is subset-su |
 | Bitcoboost/bitcoboost-core        |             5 |         55 |       2 |             4 | mainnet,paper,fair,red  | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
 | proof-native/parano1d             |             5 |         34 |      10 |            29 | mainnet                 | Proof-native Layer 1 ordered by proof of work. State validated from genesis in O(1). Prova |
-| ram0verflow/ram0verflow           |             5 |         39 |      67 |           100 | paper                   | A small Bitcoin-like chain whose canonical ledger is my README. Proof of work is subset-su |
-| ignotusnemo/parano1d              |             4 |        169 |      41 |            29 | mainnet                 | Proof-native Layer 1 ordered by proof of work. State validated from genesis in O(1). Prova |
 | SHalimoosavi/SAYANJALI-BLOCKCHAIN |             4 |         96 |       3 |            18 | pool,mainnet,proto      | SAYANJALI BLOCKCHAIN is an independently engineered Layer-1 blockchain infrastructure buil |
-| 0xcWalter/awesome-crypto-mining   |             3 |         31 |       8 |            13 | pool                    | A curated list of Proof of Work (PoW) crypto mining resources: hardware, pools, software,  |
+| ignotusnemo/parano1d              |             4 |        169 |      41 |            29 | mainnet                 | Proof-native Layer 1 ordered by proof of work. State validated from genesis in O(1). Prova |
 | ChronoCoders/ferrous              |             3 |        185 |       5 |             0 | mainnet                 | A Rust-built Layer 1 blockchain with RandomX PoW, BIP39 wallets, Shamir recovery, and post |
 | iuna-labs/iuna                    |             2 |         81 |       2 |            99 | mainnet,red             | L1 cryptocurrency designed to keep power temporary.                                        |
 
