@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   run:
@@ -26,6 +27,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           CG_KEY: ${{ secrets.CG_KEY }}
+      - name: Notify about new early-stage projects
+        if: hashFiles('early_issue.md') != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Wczesne projekty PoW $(date +%F)" --body-file early_issue.md
+          rm early_issue.md
       - run: |
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
