@@ -126,10 +126,7 @@ def miner_release(full):
     r = get(f"https://api.github.com/repos/{full}/releases/latest", headers=GH_H)
     if r is not None and r.status_code == 200:
         assets = [a["name"].lower() for a in r.json().get("assets", [])]
-        repo_slug = full.split("/")[-1].lower()
-        ok = any(k in a for a in assets for k in ("miner", "mining", "stratum"))
-        ok = ok or any(a.endswith((".zip", ".tar.gz", ".exe")) and repo_slug in a for a in assets)
-        if ok:
+        if any(k in a for a in assets for k in ("miner", "mining", "stratum")):
             return True, len(assets)
     rc = get(f"https://api.github.com/repos/{full}/contents/", headers=GH_H)
     if rc is not None and rc.status_code == 200:
@@ -217,7 +214,8 @@ for it in items:
     flags = ",".join(f for f in FLAGS if f in text)
     readme = readme_text(full)
     quality_ok = len(readme) >= 500 and not JUNK.search(readme)
-    cand = (looks_like_coin(desc, flags) and quality_ok and not TOOLING.search(text)
+    cand = (looks_like_coin(desc, flags) and quality_ok
+            and not TOOLING.search(text + " " + readme)
             and bool(OWN_CHAIN.search(text)) and in_wtm != True and in_cg != True)
     early, age, ef = 0, None, {}
     if cand:
