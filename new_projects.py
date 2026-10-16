@@ -4,8 +4,8 @@ import requests, pandas as pd
 GH_H = {"Authorization": f"Bearer {os.environ['GH_TOKEN']}",
         "Accept": "application/vnd.github+json"}
 CG_H = {"x-cg-demo-api-key": os.environ["CG_KEY"]}
-UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
-      "Accept": "text/html,application/xhtml+xml"}
+UAS = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"]
 CGU = "https://api.coingecko.com/api/v3"
 TODAY = dt.date.today()
 CREATED = (TODAY - dt.timedelta(days=270)).isoformat()
@@ -13,7 +13,11 @@ PUSHED = (TODAY - dt.timedelta(days=21)).isoformat()
 SINCE30 = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
 STATE = "data/new_projects_seen.json"
 NOTIFIED = "data/early_notified.json"
+SEEN_ALL = "data/seen_all.json"
+WTM_FALLBACK = "data/wtm_fallback.json"
 NOTIFY_MIN = 8
+WATCH_MIN = 5
+HIGH_MIN = 12
 MAX_REPOS = 80
 
 STOP = {"coin", "coins", "network", "chain", "core", "node", "miner", "mining", "pool",
@@ -29,6 +33,7 @@ TOOLING = re.compile(r"miner for|mining software|stratum server|pool software|cu
                      r"contributions to|android|\bios\b|simulation|educational|tutorial|wallet app|"
                      r"explorer for|\bsdk\b|my readme|canonical ledger")
 OWN_CHAIN = re.compile(r"layer[- ]?1|\bl1\b|blockchain|\bchain\b|fork of|independent")
+JUNK = re.compile(r"\bjoke\b|experiment only|not a real coin|not a cryptocurrency")
 
 QUERIES = [
     "proof-of-work mainnet miner",
@@ -65,23 +70,34 @@ def get(url, headers=None, **kw):
     return None
 
 def wtm_names():
-    try:
-        r = requests.get("https://whattomine.com/calculators", headers=UA, timeout=30)
-    except requests.RequestException as e:
-        print("WTM blad:", e, flush=True)
-        return None
-    if r.status_code != 200:
-        print("WTM status:", r.status_code, flush=True)
-        return None
-    slugs = set(re.findall(r"/coins/\d+-([a-z0-9\-]+)", r.text))
-    names = set()
-    for s in slugs:
-        names.add(norm(s))
-        for p in s.split("-"):
-            if len(p) >= 4 and p not in STOP:
-                names.add(p)
-    print("WTM monet:", len(slugs), flush=True)
-    return names if slugs else None
+    for ua in UAS:
+        for attempt in range(2):
+            try:
+                r = requests.get("https://whattomine.com/calculators",
+                                 headers={"User-Agent": ua, "Accept": "text/html"}, timeout=30)
+            except requests.RequestException as e:
+                print("WTM blad:", e, flush=True)
+                r = None
+            if r is not None and r.status_code == 200:
+                slugs = set(re.findall(r"/coins/\d+-([a-z0-9\-]+)", r.text))
+                if slugs:
+                    names = set()
+                    for s in slugs:
+                        names.add(norm(s))
+                        for p in s.split("-"):
+                            if len(p) >= 4 and p not in STOP:
+                                names.add(p)
+                    json.dump(sorted(names), open(WTM_FALLBACK, "w"))
+                    print("WTM monet:", len(slugs), flush=True)
+                    return names
+            print("WTM proba nieudana, status:", r.status_code if r else "brak", flush=True)
+            time.sleep(10)
+    if os.path.exists(WTM_FALLBACK):
+        names = set(json.load(open(WTM_FALLBACK)))
+        print("WTM fallback:", len(names), "monet", flush=True)
+        return names
+    print("WTM niedostepny, brak fallbacku", flush=True)
+    return None
 
 def cg_names():
     r = get(f"{CGU}/coins/list", headers=CG_H)
@@ -108,11 +124,19 @@ def variants(it):
 
 def miner_release(full):
     r = get(f"https://api.github.com/repos/{full}/releases/latest", headers=GH_H)
-    if r is None or r.status_code != 200:
-        return False, 0
-    assets = [a["name"].lower() for a in r.json().get("assets", [])]
-    ok = any(k in a for a in assets for k in ("miner", "mining", "stratum"))
-    return ok, len(assets)
+    if r is not None and r.status_code == 200:
+        assets = [a["name"].lower() for a in r.json().get("assets", [])]
+        repo_slug = full.split("/")[-1].lower()
+        ok = any(k in a for a in assets for k in ("miner", "mining", "stratum"))
+        ok = ok or any(a.endswith((".zip", ".tar.gz", ".exe")) and repo_slug in a for a in assets)
+        if ok:
+            return True, len(assets)
+    rc = get(f"https://api.github.com/repos/{full}/contents/", headers=GH_H)
+    if rc is not None and rc.status_code == 200:
+        names = [x["name"].lower() for x in rc.json()]
+        if any("miner" in n for n in names):
+            return True, 0
+    return False, 0
 
 def looks_like_coin(desc, flags):
     d = (desc or "").lower()
@@ -139,13 +163,16 @@ def early_profile(created, has_miner, commits, authors, text, readme):
         "fair": bool(re.search(r"fair launch|fair-launch|no pre-?mine|without pre-?mine|100% mined", t)),
         "red": bool(re.search(r"pre-?sale|\bico\b|airdrop|guaranteed|passive income|\bapy\b|\broi\b", t)),
         "proto": bool(re.search(r"pre-launch|prototype|proof of concept|simulation|educational", t)),
+        "upcoming": bool(re.search(r"testnet[^\n]{0,80}(launch|start|begins|starts)", t)),
+        "docs": bool(re.search(r"roadmap|docs/", t)),
     }
     s = 2 if age <= 120 else (1 if age <= 270 else 0)
     s += 3 * f["miner"] + 2 * f["pool"] + 2 * f["mainnet"] + 2 * f["paper"] + 2 * f["fair"]
+    s += 2 * f["upcoming"] + f["docs"]
     s += int(authors >= 2) + int(commits >= 20)
     s -= 3 * f["red"] + 2 * f["proto"]
     if "testnet" in t and not f["mainnet"]:
-        s -= 2
+        s -= 1
     return s, age, f
 
 wtm = wtm_names()
@@ -167,6 +194,7 @@ items = sorted(found.values(), key=lambda x: x["stargazers_count"], reverse=True
 
 os.makedirs("data", exist_ok=True)
 seen = json.load(open(STATE)) if os.path.exists(STATE) else {}
+seen_all = json.load(open(SEEN_ALL)) if os.path.exists(SEEN_ALL) else {}
 first_run = not seen
 
 rows = []
@@ -187,17 +215,24 @@ for it in items:
     desc = it.get("description") or ""
     text = (desc + " " + " ".join(it.get("topics", []))).lower()
     flags = ",".join(f for f in FLAGS if f in text)
-    cand = (looks_like_coin(desc, flags) and not TOOLING.search(text) and bool(OWN_CHAIN.search(text))
-            and in_wtm != True and in_cg != True)
+    readme = readme_text(full)
+    quality_ok = len(readme) >= 500 and not JUNK.search(readme)
+    cand = (looks_like_coin(desc, flags) and quality_ok and not TOOLING.search(text)
+            and bool(OWN_CHAIN.search(text)) and in_wtm != True and in_cg != True)
     early, age, ef = 0, None, {}
     if cand:
-        early, age, ef = early_profile(it["created_at"], has_miner, commits, authors, text, readme_text(full))
+        early, age, ef = early_profile(it["created_at"], has_miner, commits, authors, text, readme)
     if full not in seen:
         seen[full] = TODAY.isoformat()
+    if full not in seen_all:
+        seen_all[full] = {"first_seen": TODAY.isoformat(), "sources": ["new_projects"]}
+    elif "new_projects" not in seen_all[full].get("sources", []):
+        seen_all[full]["sources"].append("new_projects")
     rows.append({
         "date": TODAY.isoformat(), "repo": full,
         "in_wtm": in_wtm, "in_coingecko": in_cg,
         "coin_like": looks_like_coin(desc, flags),
+        "quality_ok": quality_ok,
         "stars": it["stargazers_count"], "commits_30d": commits, "authors_30d": authors,
         "miner_release": has_miner, "release_assets": n_assets,
         "score": commits * max(authors, 1) + it["stargazers_count"] + (20 if has_miner else 0),
@@ -211,6 +246,7 @@ for it in items:
     time.sleep(0.5)
 
 json.dump(seen, open(STATE, "w"), indent=1)
+json.dump(seen_all, open(SEEN_ALL, "w"), indent=1)
 df = pd.DataFrame(rows)
 if df.empty:
     print("Brak wynikow", flush=True)
@@ -219,14 +255,14 @@ df = df.sort_values("score", ascending=False)
 df.to_csv(f"data/new_projects-{TODAY.isoformat()}.csv", index=False)
 
 cols = ["repo", "stars", "commits_30d", "authors_30d", "miner_release", "flags", "description"]
-unknown = df[(df.in_wtm != True) & (df.in_coingecko != True) & (df.coin_like)]
+unknown = df[(df.in_wtm != True) & (df.in_coingecko != True) & (df.coin_like) & (df.quality_ok)]
 ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
 early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
 
 with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write(f"# Projekty bez WTM i bez CoinGecko - {TODAY}\n\n")
     if wtm is None:
-        f.write("UWAGA: nie udalo sie pobrac listy WhatToMine, sprawdz recznie.\n\n")
+        f.write("UWAGA: nie udalo sie pobrac listy WhatToMine, uzyto fallbacku lub pominieto filtr.\n\n")
     if cg is None:
         f.write("UWAGA: nie udalo sie pobrac listy CoinGecko, sprawdz recznie.\n\n")
     f.write("## Nowe dzisiaj\n\n")
@@ -234,9 +270,13 @@ with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write(n[cols].to_markdown(index=False) if len(n) else "Brak nowych (albo pierwsze uruchomienie).")
     f.write("\n\n## Wczesne okazje (profil Pearl)\n\n")
     f.write("Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, "
-            "autorzy i commity; minus za presale/ICO, prototyp, sam testnet. Narzedzia i dodatki "
-            "do istniejacych lancuchow sa odrzucane. To heurystyka z README, nie ocena inwestycyjna.\n\n")
+            "zapowiedziany testnet, dokumentacja, autorzy i commity; minus za presale/ICO, prototyp, "
+            "sam testnet. Narzedzia i dodatki do istniejacych lancuchow sa odrzucane. "
+            "To heurystyka z README, nie ocena inwestycyjna.\n\n")
     f.write(early_df.head(15)[ec].to_markdown(index=False) if len(early_df) else "Brak.")
+    f.write("\n\n## Watch (wynik 5-7)\n\n")
+    watch_df = early_df[(early_df.early_score >= WATCH_MIN) & (early_df.early_score < NOTIFY_MIN)]
+    f.write(watch_df[ec].to_markdown(index=False) if len(watch_df) else "Brak.")
     f.write("\n\n## Ranking kandydatow\n\n")
     f.write(unknown.head(30)[cols].to_markdown(index=False) if len(unknown) else "Brak.")
 
@@ -246,8 +286,10 @@ notified = json.load(open(NOTIFIED)) if os.path.exists(NOTIFIED) else {}
 fresh = early_df[(early_df.early_score >= NOTIFY_MIN) & (~early_df.repo.isin(list(notified)))]
 if len(fresh):
     top = fresh.head(5)
+    high = top[top.early_score >= HIGH_MIN]
+    label = "[HIGH-PRIORITY] " if len(high) else ""
     with open("early_issue.md", "w", encoding="utf-8") as g:
-        g.write(f"Nowe wczesne projekty PoW ({TODAY}), wynik >= {NOTIFY_MIN}. "
+        g.write(f"{label}Nowe wczesne projekty PoW ({TODAY}), wynik >= {NOTIFY_MIN}. "
                 "Heurystyka z README, nie ocena inwestycyjna.\n\n")
         g.write(top[ec + ["url"]].to_markdown(index=False))
     for name in top.repo:
