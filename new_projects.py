@@ -27,7 +27,7 @@ GOOD = ["blockchain", "layer-1", "layer 1", "l1", "coin", "ledger", "mining", "m
 GOOD_FLAGS = ("mainnet", "miner", "stratum", "randomx", "kawpow", "l1", "layer1")
 TOOLING = re.compile(r"miner for|mining software|stratum server|pool software|curated list|awesome|"
                      r"contributions to|android|\bios\b|simulation|educational|tutorial|wallet app|"
-                     r"explorer for|\bsdk\b")
+                     r"explorer for|\bsdk\b|my readme|canonical ledger")
 OWN_CHAIN = re.compile(r"layer[- ]?1|\bl1\b|blockchain|\bchain\b|fork of|independent")
 
 QUERIES = [
@@ -38,6 +38,9 @@ QUERIES = [
     "randomx new coin mainnet",
     "cpu mining cryptocurrency mainnet launch",
     "proof of useful work blockchain",
+    "proof-of-useful-work",
+    "verified compute",
+    "testnet miner gpu",
     "topic:proof-of-work",
     "topic:mining blockchain",
 ]
