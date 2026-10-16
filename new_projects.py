@@ -4,8 +4,8 @@ import requests, pandas as pd
 GH_H = {"Authorization": f"Bearer {os.environ['GH_TOKEN']}",
         "Accept": "application/vnd.github+json"}
 CG_H = {"x-cg-demo-api-key": os.environ["CG_KEY"]}
-UAS = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
-       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"]
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml"}
 CGU = "https://api.coingecko.com/api/v3"
 TODAY = dt.date.today()
 CREATED = (TODAY - dt.timedelta(days=270)).isoformat()
@@ -14,7 +14,6 @@ SINCE30 = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)).strftime("%
 STATE = "data/new_projects_seen.json"
 NOTIFIED = "data/early_notified.json"
 SEEN_ALL = "data/seen_all.json"
-WTM_FALLBACK = "data/wtm_fallback.json"
 NOTIFY_MIN = 8
 WATCH_MIN = 5
 HIGH_MIN = 12
@@ -67,36 +66,6 @@ def get(url, headers=None, **kw):
         except requests.RequestException as e:
             print("blad:", e, flush=True)
             time.sleep(5)
-    return None
-
-def wtm_names():
-    for ua in UAS:
-        for attempt in range(2):
-            try:
-                r = requests.get("https://whattomine.com/calculators",
-                                 headers={"User-Agent": ua, "Accept": "text/html"}, timeout=30)
-            except requests.RequestException as e:
-                print("WTM blad:", e, flush=True)
-                r = None
-            if r is not None and r.status_code == 200:
-                slugs = set(re.findall(r"/coins/\d+-([a-z0-9\-]+)", r.text))
-                if slugs:
-                    names = set()
-                    for s in slugs:
-                        names.add(norm(s))
-                        for p in s.split("-"):
-                            if len(p) >= 4 and p not in STOP:
-                                names.add(p)
-                    json.dump(sorted(names), open(WTM_FALLBACK, "w"))
-                    print("WTM monet:", len(slugs), flush=True)
-                    return names
-            print("WTM proba nieudana, status:", r.status_code if r else "brak", flush=True)
-            time.sleep(10)
-    if os.path.exists(WTM_FALLBACK):
-        names = set(json.load(open(WTM_FALLBACK)))
-        print("WTM fallback:", len(names), "monet", flush=True)
-        return names
-    print("WTM niedostepny, brak fallbacku", flush=True)
     return None
 
 def cg_names():
@@ -172,7 +141,6 @@ def early_profile(created, has_miner, commits, authors, text, readme):
         s -= 1
     return s, age, f
 
-wtm = wtm_names()
 cg = cg_names()
 
 found = {}
@@ -198,7 +166,6 @@ rows = []
 for it in items:
     full = it["full_name"]
     vs = variants(it)
-    in_wtm = None if wtm is None else bool(vs & wtm)
     in_cg = None if cg is None else bool(vs & cg)
     r = get(f"https://api.github.com/repos/{full}/commits", headers=GH_H,
             params={"since": SINCE30, "per_page": 100})
@@ -216,7 +183,7 @@ for it in items:
     quality_ok = len(readme) >= 500 and not JUNK.search(readme)
     cand = (looks_like_coin(desc, flags) and quality_ok
             and not TOOLING.search(text + " " + readme)
-            and bool(OWN_CHAIN.search(text)) and in_wtm != True and in_cg != True)
+            and bool(OWN_CHAIN.search(text)) and in_cg != True)
     early, age, ef = 0, None, {}
     if cand:
         early, age, ef = early_profile(it["created_at"], has_miner, commits, authors, text, readme)
@@ -228,7 +195,7 @@ for it in items:
         seen_all[full]["sources"].append("new_projects")
     rows.append({
         "date": TODAY.isoformat(), "repo": full,
-        "in_wtm": in_wtm, "in_coingecko": in_cg,
+        "in_coingecko": in_cg,
         "coin_like": looks_like_coin(desc, flags),
         "quality_ok": quality_ok,
         "stars": it["stargazers_count"], "commits_30d": commits, "authors_30d": authors,
@@ -253,14 +220,12 @@ df = df.sort_values("score", ascending=False)
 df.to_csv(f"data/new_projects-{TODAY.isoformat()}.csv", index=False)
 
 cols = ["repo", "stars", "commits_30d", "authors_30d", "miner_release", "flags", "description"]
-unknown = df[(df.in_wtm != True) & (df.in_coingecko != True) & (df.coin_like) & (df.quality_ok)]
+unknown = df[(df.in_coingecko != True) & (df.coin_like) & (df.quality_ok)]
 ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
 early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
 
 with open("new_projects.md", "w", encoding="utf-8") as f:
-    f.write(f"# Projekty bez WTM i bez CoinGecko - {TODAY}\n\n")
-    if wtm is None:
-        f.write("UWAGA: nie udalo sie pobrac listy WhatToMine, uzyto fallbacku lub pominieto filtr.\n\n")
+    f.write(f"# Projekty bez CoinGecko - {TODAY}\n\n")
     if cg is None:
         f.write("UWAGA: nie udalo sie pobrac listy CoinGecko, sprawdz recznie.\n\n")
     f.write("## Nowe dzisiaj\n\n")
