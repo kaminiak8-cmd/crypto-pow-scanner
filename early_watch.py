@@ -8,6 +8,8 @@ TODAY = dt.date.today()
 ARXIV_DAYS = 120
 REPO_DAYS = 45
 STATE = "data/early_watch_seen.json"
+SEEN_ALL = "data/seen_all.json"
+NOTIFIED = "data/early_notified.json"
 OUT_MD = "early_watch.md"
 OUT_ISSUE = "watch_issue.md"
 PAPER_MIN = 3
@@ -137,11 +139,22 @@ def table(rows, cols):
     return head + body
 
 
+def mark_seen_all(full):
+    seen_all = json.load(open(SEEN_ALL)) if os.path.exists(SEEN_ALL) else {}
+    if full not in seen_all:
+        seen_all[full] = {"first_seen": TODAY.isoformat(), "sources": ["early_watch"]}
+    else:
+        if "early_watch" not in seen_all[full].get("sources", []):
+            seen_all[full]["sources"].append("early_watch")
+    json.dump(seen_all, open(SEEN_ALL, "w"), indent=1)
+
+
 def main():
     os.makedirs("data", exist_ok=True)
     if os.path.exists(OUT_ISSUE):
         os.remove(OUT_ISSUE)
     seen = json.load(open(STATE)) if os.path.exists(STATE) else {}
+    notified = json.load(open(NOTIFIED)) if os.path.exists(NOTIFIED) else {}
 
     papers = {}
     for q in ARXIV_QUERIES:
@@ -186,11 +199,13 @@ def main():
         s, age, fl = repo_score(it, readme_text(full))
         rrows.append({"score": s, "age_days": age, "stars": it["stargazers_count"],
                       "flags": fl, "repo": full, "description": desc[:80], "url": it["html_url"]})
+        mark_seen_all(full)
         time.sleep(0.5)
     rrows.sort(key=lambda x: (x["score"], -x["age_days"]), reverse=True)
 
     new_p = [r for r in prow if r["score"] >= PAPER_MIN and r["url"] not in seen]
-    new_r = [r for r in rrows if r["score"] >= REPO_MIN and r["url"] not in seen]
+    new_r = [r for r in rrows if r["score"] >= REPO_MIN and r["url"] not in seen
+             and r["repo"] not in notified]
 
     with open(OUT_MD, "w", encoding="utf-8") as f:
         f.write(f"# Bardzo wczesny radar - {TODAY}\n\n")
