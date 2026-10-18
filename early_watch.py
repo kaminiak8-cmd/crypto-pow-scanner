@@ -10,10 +10,16 @@ REPO_DAYS = 45
 STATE = "data/early_watch_seen.json"
 SEEN_ALL = "data/seen_all.json"
 NOTIFIED = "data/early_notified.json"
+RELEASES_SEEN = "data/release_watch_seen.json"
 OUT_MD = "early_watch.md"
 OUT_ISSUE = "watch_issue.md"
 PAPER_MIN = 3
 REPO_MIN = 4
+WATCHLIST = [
+    "vearl-verified-compute/vearl",
+    "ignotusnemo/parano1d",
+    "jokeez/hackme",
+]
 A = {"a": "http://www.w3.org/2005/Atom", "x": "http://arxiv.org/schemas/atom"}
 
 ARXIV_QUERIES = [
@@ -149,6 +155,33 @@ def mark_seen_all(full):
     json.dump(seen_all, open(SEEN_ALL, "w"), indent=1)
 
 
+def release_watch():
+    state = json.load(open(RELEASES_SEEN)) if os.path.exists(RELEASES_SEEN) else {}
+    rows = []
+    for full in WATCHLIST:
+        r = get(f"https://api.github.com/repos/{full}/releases", headers=GH_H,
+                params={"per_page": 10})
+        time.sleep(1)
+        if r is None or r.status_code != 200:
+            print("release watch blad:", full, r.status_code if r else "brak", flush=True)
+            continue
+        rels = [x for x in r.json() if not x.get("draft")]
+        tags = [x["tag_name"] for x in rels]
+        known = state.get(full)
+        if known is not None:
+            for x in rels:
+                if x["tag_name"] not in known:
+                    rows.append({"repo": full, "tag": x["tag_name"],
+                                 "published": (x.get("published_at") or "")[:10],
+                                 "prerelease": x.get("prerelease"),
+                                 "name": (x.get("name") or "")[:60],
+                                 "url": x["html_url"]})
+        state[full] = sorted(set(tags) | set(known or []))
+    json.dump(state, open(RELEASES_SEEN, "w"), indent=1)
+    print("Release watch: nowych wydan", len(rows), flush=True)
+    return rows[:10]
+
+
 def main():
     os.makedirs("data", exist_ok=True)
     if os.path.exists(OUT_ISSUE):
@@ -206,6 +239,7 @@ def main():
     new_p = [r for r in prow if r["score"] >= PAPER_MIN and r["url"] not in seen]
     new_r = [r for r in rrows if r["score"] >= REPO_MIN and r["url"] not in seen
              and r["repo"] not in notified]
+    new_rel = release_watch()
 
     with open(OUT_MD, "w", encoding="utf-8") as f:
         f.write(f"# Bardzo wczesny radar - {TODAY}\n\n")
@@ -217,7 +251,7 @@ def main():
         f.write(table(rrows[:20], ["score", "age_days", "stars", "flags", "repo", "description", "url"]))
         f.write("\n")
 
-    if new_p or new_r:
+    if new_p or new_r or new_rel:
         with open(OUT_ISSUE, "w", encoding="utf-8") as g:
             g.write(f"Nowe bardzo wczesne sygnaly ({TODAY}). Heurystyka, nie ocena inwestycyjna.\n\n")
             if new_p:
@@ -225,11 +259,15 @@ def main():
                 g.write(table(new_p[:5], ["score", "date", "title", "signals", "repos", "url"]) + "\n\n")
             if new_r:
                 g.write("## Repozytoria\n\n")
-                g.write(table(new_r[:5], ["score", "age_days", "stars", "flags", "repo", "url"]) + "\n")
+                g.write(table(new_r[:5], ["score", "age_days", "stars", "flags", "repo", "url"]) + "\n\n")
+            if new_rel:
+                g.write("## Nowe wydania obserwowanych repozytoriow\n\n")
+                g.write(table(new_rel, ["repo", "tag", "published", "prerelease", "name", "url"]) + "\n")
         for r in new_p[:5] + new_r[:5]:
             seen[r["url"]] = TODAY.isoformat()
         json.dump(seen, open(STATE, "w"), indent=1)
-    print("Gotowe: prac", len(prow), "repo", len(rrows), "nowych", len(new_p) + len(new_r), flush=True)
+    print("Gotowe: prac", len(prow), "repo", len(rrows), "nowych", len(new_p) + len(new_r),
+          "wydan", len(new_rel), flush=True)
 
 
 if __name__ == "__main__":
