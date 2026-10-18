@@ -33,6 +33,9 @@ TOOLING = re.compile(r"miner for|mining software|stratum server|pool software|cu
                      r"explorer for|\bsdk\b|my readme|canonical ledger")
 OWN_CHAIN = re.compile(r"layer[- ]?1|\bl1\b|blockchain|\bchain\b|fork of|independent")
 JUNK = re.compile(r"\bjoke\b|experiment only|not a real coin|not a cryptocurrency")
+BIN_EXT = (".zip", ".tar.gz", ".tgz", ".exe", ".deb", ".msi", ".appimage")
+PLATFORM = re.compile(r"windows|linux|x86_64|amd64|win64|\.exe$|\.deb$|\.msi$")
+MINING_WORDS = re.compile(r"\bminers?\b|\bmining\b")
 
 QUERIES = [
     "proof-of-work mainnet miner",
@@ -91,12 +94,19 @@ def variants(it):
         out.add(norm(re.sub(r"[-_.]?(core|node|miner|blockchain|network|chain|coin|pow)$", "", base.lower())))
     return {v for v in out if len(v) >= 3}
 
-def miner_release(full):
-    r = get(f"https://api.github.com/repos/{full}/releases/latest", headers=GH_H)
+def miner_release(full, readme=""):
+    r = get(f"https://api.github.com/repos/{full}/releases", headers=GH_H, params={"per_page": 5})
     if r is not None and r.status_code == 200:
-        assets = [a["name"].lower() for a in r.json().get("assets", [])]
-        if any(k in a for a in assets for k in ("miner", "mining", "stratum")):
-            return True, len(assets)
+        mentions_mining = bool(MINING_WORDS.search(readme))
+        for rel in r.json():
+            if rel.get("draft"):
+                continue
+            assets = [a["name"].lower() for a in rel.get("assets", [])]
+            if any(k in a for a in assets for k in ("miner", "mining", "stratum")):
+                return True, len(assets)
+            binaries = [a for a in assets if a.endswith(BIN_EXT) and PLATFORM.search(a)]
+            if binaries and mentions_mining:
+                return True, len(assets)
     rc = get(f"https://api.github.com/repos/{full}/contents/", headers=GH_H)
     if rc is not None and rc.status_code == 200:
         names = [x["name"].lower() for x in rc.json()]
@@ -175,11 +185,11 @@ for it in items:
         commits = len(data)
         authors = len({c["author"]["login"] for c in data
                        if c.get("author") and "bot" not in c["author"]["login"].lower()})
-    has_miner, n_assets = miner_release(full)
+    readme = readme_text(full)
+    has_miner, n_assets = miner_release(full, readme)
     desc = it.get("description") or ""
     text = (desc + " " + " ".join(it.get("topics", []))).lower()
     flags = ",".join(f for f in FLAGS if f in text)
-    readme = readme_text(full)
     quality_ok = len(readme) >= 500 and not JUNK.search(readme)
     cand = (looks_like_coin(desc, flags) and quality_ok
             and not TOOLING.search(text + " " + readme)
