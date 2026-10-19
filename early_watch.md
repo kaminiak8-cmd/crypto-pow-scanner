@@ -1,4 +1,4 @@
-# Bardzo wczesny radar - 2026-10-18
+# Bardzo wczesny radar - 2026-10-19
 
 Heurystyka: nowe prace arXiv o dowodzie (uzytecznej) pracy z sygnalami budowy lancucha i mlode repozytoria przed mainnetem. Nie jest to ocena inwestycyjna.
 
@@ -10,4 +10,4 @@ Brak.
 
 | score | age_days | stars | flags | repo | description | url |
 |---|---|---|---|---|---|---|
-| 5 | 8 | 16 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
+| 5 | 9 | 17 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
