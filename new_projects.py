@@ -31,11 +31,13 @@ GOOD_FLAGS = ("mainnet", "miner", "stratum", "randomx", "kawpow", "l1", "layer1"
 TOOLING = re.compile(r"miner for|mining software|stratum server|pool software|curated list|awesome|"
                      r"contributions to|android|\bios\b|simulation|educational|tutorial|wallet app|"
                      r"explorer for|\bsdk\b|my readme|canonical ledger")
+TOOLING_README = re.compile(r"my readme|canonical ledger|curated list|awesome[- ]list")
 OWN_CHAIN = re.compile(r"layer[- ]?1|\bl1\b|blockchain|\bchain\b|fork of|independent")
 JUNK = re.compile(r"\bjoke\b|experiment only|not a real coin|not a cryptocurrency")
+PROTO_README = re.compile(r"research prototype|proof of concept|pre-launch research")
 BIN_EXT = (".zip", ".tar.gz", ".tgz", ".exe", ".deb", ".msi", ".appimage")
 PLATFORM = re.compile(r"windows|linux|x86_64|amd64|win64|\.exe$|\.deb$|\.msi$")
-MINING_WORDS = re.compile(r"\bminers?\b|\bmining\b")
+MINER_WORD = re.compile(r"\bminers?\b")
 
 QUERIES = [
     "proof-of-work mainnet miner",
@@ -97,7 +99,7 @@ def variants(it):
 def miner_release(full, readme=""):
     r = get(f"https://api.github.com/repos/{full}/releases", headers=GH_H, params={"per_page": 5})
     if r is not None and r.status_code == 200:
-        mentions_mining = bool(MINING_WORDS.search(readme))
+        mentions_miner = bool(MINER_WORD.search(readme))
         for rel in r.json():
             if rel.get("draft"):
                 continue
@@ -105,7 +107,7 @@ def miner_release(full, readme=""):
             if any(k in a for a in assets for k in ("miner", "mining", "stratum")):
                 return True, len(assets)
             binaries = [a for a in assets if a.endswith(BIN_EXT) and PLATFORM.search(a)]
-            if binaries and mentions_mining:
+            if binaries and mentions_miner:
                 return True, len(assets)
     rc = get(f"https://api.github.com/repos/{full}/contents/", headers=GH_H)
     if rc is not None and rc.status_code == 200:
@@ -138,7 +140,8 @@ def early_profile(created, has_miner, commits, authors, text, readme):
         "paper": bool(re.search(r"white\s?paper|arxiv|\bpaper\b", t)),
         "fair": bool(re.search(r"fair launch|fair-launch|no pre-?mine|without pre-?mine|100% mined", t)),
         "red": bool(re.search(r"pre-?sale|\bico\b|airdrop|guaranteed|passive income|\bapy\b|\broi\b", t)),
-        "proto": bool(re.search(r"pre-launch|prototype|proof of concept|simulation|educational", t)),
+        "proto": bool(re.search(r"pre-launch|prototype|proof of concept|simulation|educational", text))
+                 or bool(PROTO_README.search(readme)),
         "upcoming": bool(re.search(r"testnet[^\n]{0,80}(launch|start|begins|starts)", t)),
         "docs": bool(re.search(r"roadmap|docs/", t)),
     }
@@ -191,8 +194,8 @@ for it in items:
     text = (desc + " " + " ".join(it.get("topics", []))).lower()
     flags = ",".join(f for f in FLAGS if f in text)
     quality_ok = len(readme) >= 500 and not JUNK.search(readme)
-    cand = (looks_like_coin(desc, flags) and quality_ok
-            and not TOOLING.search(text + " " + readme)
+    tooling = bool(TOOLING.search(text) or TOOLING_README.search(readme))
+    cand = (looks_like_coin(desc, flags) and quality_ok and not tooling
             and bool(OWN_CHAIN.search(text)) and in_cg != True)
     early, age, ef = 0, None, {}
     if cand:
@@ -208,6 +211,8 @@ for it in items:
         "in_coingecko": in_cg,
         "coin_like": looks_like_coin(desc, flags),
         "quality_ok": quality_ok,
+        "tooling": tooling,
+        "desc_key": desc.lower().strip() or full.lower(),
         "stars": it["stargazers_count"], "commits_30d": commits, "authors_30d": authors,
         "miner_release": has_miner, "release_assets": n_assets,
         "score": commits * max(authors, 1) + it["stargazers_count"] + (20 if has_miner else 0),
@@ -230,7 +235,10 @@ df = df.sort_values("score", ascending=False)
 df.to_csv(f"data/new_projects-{TODAY.isoformat()}.csv", index=False)
 
 cols = ["repo", "stars", "commits_30d", "authors_30d", "miner_release", "flags", "description"]
-unknown = df[(df.in_coingecko != True) & (df.coin_like) & (df.quality_ok)]
+unknown = df[(df.in_coingecko != True) & (df.coin_like) & (df.quality_ok) & (~df.tooling)]
+unknown = (unknown.sort_values("stars", ascending=False)
+           .drop_duplicates("desc_key")
+           .sort_values("score", ascending=False))
 ec = ["repo", "early_score", "age_days", "stars", "commits_30d", "early_flags", "description"]
 early_df = unknown[unknown.early_score > 0].sort_values("early_score", ascending=False)
 
@@ -244,7 +252,7 @@ with open("new_projects.md", "w", encoding="utf-8") as f:
     f.write("\n\n## Wczesne okazje (profil Pearl)\n\n")
     f.write("Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair launch, "
             "zapowiedziany testnet, dokumentacja, autorzy i commity; minus za presale/ICO, prototyp, "
-            "sam testnet. Narzedzia i dodatki do istniejacych lancuchow sa odrzucane. "
+            "sam testnet. Narzedzia, listy i kopie (mirrory) sa odrzucane. "
             "To heurystyka z README, nie ocena inwestycyjna.\n\n")
     f.write(early_df.head(15)[ec].to_markdown(index=False) if len(early_df) else "Brak.")
     f.write("\n\n## Watch (wynik 5-7)\n\n")
