@@ -539,5 +539,17 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "doomsday-network/doomsday": {
+  "first_seen": "2026-10-23",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "jconorgrogan/palomar-chair-verification": {
+  "first_seen": "2026-10-23",
+  "sources": [
+   "new_projects"
+  ]
  }
 }
