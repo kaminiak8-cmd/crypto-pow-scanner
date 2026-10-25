@@ -95,5 +95,9 @@
  "Bubblegunn/workproof": "2026-10-22",
  "trgchinhh/blockchain": "2026-10-22",
  "doomsday-network/doomsday": "2026-10-23",
- "jconorgrogan/palomar-chair-verification": "2026-10-23"
+ "jconorgrogan/palomar-chair-verification": "2026-10-23",
+ "doomsday-network/bounty-guard": "2026-10-25",
+ "doomsday-network/github-bounty-scanner": "2026-10-25",
+ "doomsday-network/cuda-gpu-miner": "2026-10-25",
+ "doomsday-network/web3-agent-skills": "2026-10-25"
 }

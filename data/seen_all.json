@@ -551,5 +551,29 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "doomsday-network/bounty-guard": {
+  "first_seen": "2026-10-25",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "doomsday-network/github-bounty-scanner": {
+  "first_seen": "2026-10-25",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "doomsday-network/cuda-gpu-miner": {
+  "first_seen": "2026-10-25",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "doomsday-network/web3-agent-skills": {
+  "first_seen": "2026-10-25",
+  "sources": [
+   "new_projects"
+  ]
  }
 }
