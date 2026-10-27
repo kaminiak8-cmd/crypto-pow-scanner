@@ -1,4 +1,4 @@
-# Bardzo wczesny radar - 2026-10-26
+# Bardzo wczesny radar - 2026-10-27
 
 Heurystyka: nowe prace arXiv o dowodzie (uzytecznej) pracy z sygnalami budowy lancucha i mlode repozytoria przed mainnetem. Nie jest to ocena inwestycyjna.
 
@@ -6,10 +6,10 @@ Heurystyka: nowe prace arXiv o dowodzie (uzytecznej) pracy z sygnalami budowy la
 
 | score | date | title | signals | repos | url |
 |---|---|---|---|---|---|
-| 4 | 2026-10-19 | Proof-of-Machine-Learning-Inference: Mining Knowledge, Not Hashes | chain,mining | eerstar/LLM-Agent-paper-daily | https://arxiv.org/abs/2610.26713 |
+| 2 | 2026-10-19 | Proof-of-Machine-Learning-Inference: Mining Knowledge, Not Hashes | chain,mining |  | https://arxiv.org/abs/2610.26713 |
 
 ## Mlode repozytoria (do 45 dni)
 
 | score | age_days | stars | flags | repo | description | url |
 |---|---|---|---|---|---|---|
-| 4 | 16 | 22 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
+| 4 | 17 | 22 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
