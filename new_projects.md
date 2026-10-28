@@ -1,4 +1,4 @@
-# Projekty bez CoinGecko - 2026-10-27
+# Projekty bez CoinGecko - 2026-10-28
 
 ## Nowe dzisiaj
 
@@ -10,20 +10,20 @@ Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair lau
 
 | repo                         |   early_score |   age_days |   stars |   commits_30d | early_flags                   | description                                                                                |
 |:-----------------------------|--------------:|-----------:|--------:|--------------:|:------------------------------|:-------------------------------------------------------------------------------------------|
-| pars5555/pcoin               |            13 |         87 |       9 |            63 | miner,pool,mainnet,fair,docs  | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| acxxcxx/armax-coin           |            13 |          5 |       2 |            43 | miner,mainnet,paper,fair,docs | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
-| Instinctes/nightfall         |            12 |         76 |       2 |            69 | miner,mainnet,fair,docs       | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
-| blackbeardONE/QSDM           |            10 |        188 |       3 |           100 | miner,mainnet,fair,docs       | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| jokeez/hackme                |             9 |        162 |      25 |           100 | miner,pool,docs               | Useful PoW mining + B2B WASM fuzz orders. HTTP pool at hackme.tech (not Stratum). GPU, Hac |
-| vearl-verified-compute/vearl |             8 |         17 |      22 |            85 | miner,upcoming,docs           | Vearl - verified compute: a proof-of-useful-work chain                                     |
-| devdavidejesus/btc-toolkit   |             6 |        203 |       2 |            68 | mainnet,docs                  | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
-| iuna-labs/iuna               |             2 |         93 |       2 |            93 | mainnet,red                   | L1 cryptocurrency designed to keep power temporary.                                        |
+| acxxcxx/armax-coin           |            13 |          6 |       2 |            66 | miner,mainnet,paper,fair,docs | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
+| pars5555/pcoin               |            13 |         88 |       9 |            46 | miner,pool,mainnet,fair,docs  | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
+| Instinctes/nightfall         |            12 |         77 |       2 |            69 | miner,mainnet,fair,docs       | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
+| blackbeardONE/QSDM           |            10 |        189 |       3 |           100 | miner,mainnet,fair,docs       | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
+| jokeez/hackme                |             9 |        163 |      25 |           100 | miner,pool,docs               | Useful PoW mining + B2B WASM fuzz orders. HTTP pool at hackme.tech (not Stratum). GPU, Hac |
+| vearl-verified-compute/vearl |             8 |         18 |      22 |            85 | miner,upcoming,docs           | Vearl - verified compute: a proof-of-useful-work chain                                     |
+| devdavidejesus/btc-toolkit   |             6 |        204 |       2 |            66 | mainnet,docs                  | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
+| iuna-labs/iuna               |             2 |         94 |       2 |            88 | mainnet,red                   | L1 cryptocurrency designed to keep power temporary.                                        |
 
 ## Watch (wynik 5-7)
 
 | repo                       |   early_score |   age_days |   stars |   commits_30d | early_flags   | description                                                                                |
 |:---------------------------|--------------:|-----------:|--------:|--------------:|:--------------|:-------------------------------------------------------------------------------------------|
-| devdavidejesus/btc-toolkit |             6 |        203 |       2 |            68 | mainnet,docs  | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
+| devdavidejesus/btc-toolkit |             6 |        204 |       2 |            66 | mainnet,docs  | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
 
 ## Ranking kandydatow
 
@@ -31,11 +31,11 @@ Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair lau
 |:-----------------------------|--------:|--------------:|--------------:|:----------------|:-----------------------------------|:-------------------------------------------------------------------------------------------|
 | jokeez/hackme                |      25 |           100 |             2 | True            | stratum,pool,proof-of-work,pow,gpu | Useful PoW mining + B2B WASM fuzz orders. HTTP pool at hackme.tech (not Stratum). GPU, Hac |
 | Instinctes/nightfall         |       2 |            69 |             3 | True            | proof-of-work                      | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
-| devdavidejesus/btc-toolkit   |       2 |            68 |             2 | False           | pool,proof-of-work                 | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
+| devdavidejesus/btc-toolkit   |       2 |            66 |             2 | False           | pool,proof-of-work                 | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
 | vearl-verified-compute/vearl |      22 |            85 |             1 | True            |                                    | Vearl - verified compute: a proof-of-useful-work chain                                     |
 | blackbeardONE/QSDM           |       3 |           100 |             1 | True            | miner,proof-of-work,pow,gpu        | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| iuna-labs/iuna               |       2 |            93 |             1 | False           | proof-of-work,pow,l1               | L1 cryptocurrency designed to keep power temporary.                                        |
-| pars5555/pcoin               |       9 |            63 |             1 | True            | proof-of-work,pow,randomx,layer1   | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| NotoriAndo/Boole             |       2 |            78 |             1 | False           | proof-of-work,l1                   | Experimental L1 mined by formal proofs. Pre-launch research prototype, no token has value. |
-| acxxcxx/armax-coin           |       2 |            43 |             1 | True            | testnet,proof-of-work              | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
-| xXGuilasXx/spark-pearl-miner |       4 |            19 |             2 | True            | miner,gpu                          | Open-source Pearl (PRL) proof-of-useful-work miner built for the NVIDIA DGX Spark (GB10, s |
+| iuna-labs/iuna               |       2 |            88 |             1 | False           | proof-of-work,pow,l1               | L1 cryptocurrency designed to keep power temporary.                                        |
+| acxxcxx/armax-coin           |       2 |            66 |             1 | True            | testnet,proof-of-work              | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
+| NotoriAndo/Boole             |       2 |            77 |             1 | False           | proof-of-work,l1                   | Experimental L1 mined by formal proofs. Pre-launch research prototype, no token has value. |
+| pars5555/pcoin               |       9 |            46 |             1 | True            | proof-of-work,pow,randomx,layer1   | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
+| xXGuilasXx/spark-pearl-miner |       4 |            17 |             2 | True            | miner,gpu                          | Open-source Pearl (PRL) proof-of-useful-work miner built for the NVIDIA DGX Spark (GB10, s |
