@@ -593,5 +593,17 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "adkdev200/Universal-Computer-Control": {
+  "first_seen": "2026-10-29",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "wamcoin-core-dev/wam-coin": {
+  "first_seen": "2026-10-29",
+  "sources": [
+   "new_projects"
+  ]
  }
 }
