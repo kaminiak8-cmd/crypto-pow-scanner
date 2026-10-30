@@ -605,5 +605,29 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "alex-quiterio/blockchain-rs": {
+  "first_seen": "2026-10-30",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "photonicmoney/photonhash": {
+  "first_seen": "2026-10-30",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "TechNexusOrg/platform": {
+  "first_seen": "2026-10-30",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "frstrtr/p2pool-merged-v36": {
+  "first_seen": "2026-10-30",
+  "sources": [
+   "new_projects"
+  ]
  }
 }
