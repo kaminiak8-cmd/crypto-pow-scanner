@@ -107,5 +107,8 @@
  "wamcoin-core-dev/wam-coin": "2026-10-29",
  "alex-quiterio/blockchain-rs": "2026-10-30",
  "photonicmoney/photonhash": "2026-10-30",
- "frstrtr/p2pool-merged-v36": "2026-10-30"
+ "frstrtr/p2pool-merged-v36": "2026-10-30",
+ "resolvrlabs/botdeflector-solver": "2026-10-31",
+ "AEjonanonymous/Tensegrity-Reservoir-Computing": "2026-10-31",
+ "oliweb-ch/statamic-cap": "2026-10-31"
 }

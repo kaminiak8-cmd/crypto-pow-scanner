@@ -629,5 +629,29 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "resolvrlabs/botdeflector-solver": {
+  "first_seen": "2026-10-31",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "oliweb-ch/laravel-cap": {
+  "first_seen": "2026-10-31",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "AEjonanonymous/Tensegrity-Reservoir-Computing": {
+  "first_seen": "2026-10-31",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "oliweb-ch/statamic-cap": {
+  "first_seen": "2026-10-31",
+  "sources": [
+   "new_projects"
+  ]
  }
 }
