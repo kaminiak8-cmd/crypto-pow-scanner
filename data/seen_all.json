@@ -781,5 +781,11 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "HLIntel/Headron": {
+  "first_seen": "2026-11-10",
+  "sources": [
+   "new_projects"
+  ]
  }
 }

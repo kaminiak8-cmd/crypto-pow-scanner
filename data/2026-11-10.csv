@@ -1,0 +1,26 @@
+date,coin,name,price,market_cap,volume_24h,commits_90d,authors_90d,score,repo
+2026-11-10,VRSC,Verus,0.204102,16544366,2790.53,190,33,378.981,https://github.com/VerusCoin/VerusCoin
+2026-11-10,ERG,Ergo,0.196796,16440164,139607.0,185,8,90.0234,https://github.com/ergoplatform/ergo
+2026-11-10,XCP,Counterparty,3.2,8269810,0.31973,136,5,82.2268,https://github.com/CounterpartyXCP/counterparty-core
+2026-11-10,FIRO,Firo,0.703282,13532509,85872.0,72,10,53.2052,https://github.com/firoorg/firo
+2026-11-10,ZANO,Zano,3.66,56657715,907262.0,157,4,11.0841,https://github.com/hyle-team/zano
+2026-11-10,CKB,Nervos Network,0.00093443,46601895,1550971.0,35,6,4.5063,https://github.com/nervosnetwork/ckb
+2026-11-10,ARRR,Pirate Chain,0.183402,35986062,492330.0,80,2,4.4462,https://github.com/PirateNetwork/pirate
+2026-11-10,DCR,Decred,12.04,212950210,367391.0,95,7,3.1228,https://github.com/decred/dcrd
+2026-11-10,QUAI,Quai Network,0.00721864,8366148,85970.0,20,1,2.3906,https://github.com/dominant-strategies/go-quai
+2026-11-10,XVG,Verge,0.00197752,32672418,729108.0,29,2,1.7752,https://github.com/vergecurrency/verge
+2026-11-10,DASH,Dash,45.65,588488939,43948290.0,191,5,1.6228,https://github.com/dashpay/tenderdash
+2026-11-10,XMR,Monero,560.41,10551986690,143577611.0,500,26,1.232,https://github.com/monero-project/monero
+2026-11-10,QRL,Quantum Resistant Ledger,0.90204,70713589,38910.0,25,3,1.0606,https://github.com/theQRL/QRL
+2026-11-10,PEARL,Pearl,1.68,627988886,12513997.0,44,7,0.4905,https://github.com/pearl-research-labs/pearl
+2026-11-10,BDX,Beldex,0.072362,569613309,6268282.0,30,5,0.2633,https://github.com/Beldex-Coin/beldex
+2026-11-10,DGB,DigiByte,0.00308311,57201290,2190840.0,7,2,0.2447,https://github.com/DigiByte-Core/DGBio
+2026-11-10,ETC,Ethereum Classic,6.84,1086665353,35975405.0,29,6,0.1601,https://github.com/ethereumclassic/ethereumclassic.github.io
+2026-11-10,BSV,Bitcoin SV,16.34,328572139,5676266.0,9,1,0.0274,https://github.com/bitcoin-sv/bitcoin-sv
+2026-11-10,DOGE,Dogecoin,0.069945,10959275626,413386472.0,28,6,0.0153,https://github.com/dogecoin/dogecoin
+2026-11-10,BTC,Bitcoin,74598.0,1500175774661,27340197466.0,500,44,0.0147,https://github.com/bitcoin/bitcoin
+2026-11-10,LTC,Litecoin,51.42,4001162604,190749631.0,13,1,0.0032,https://github.com/litecoin-project/litecoin
+2026-11-10,KAS,Kaspa,0.0301463,838129698,8494577.0,0,0,0.0,https://github.com/kaspanet/kaspad
+2026-11-10,BCH,Bitcoin Cash,239.02,4807846495,178702569.0,0,0,0.0,https://github.com/bitcoincashorg/bitcoincash.org
+2026-11-10,ZEC,Zcash,1148.85,19568646244,978175483.0,0,0,0.0,https://github.com/zcash/zcash
+2026-11-10,RVN,Ravencoin,0.00123105,20383267,1276477.0,0,0,0.0,https://github.com/RavenProject/Ravencoin
