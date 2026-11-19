@@ -901,5 +901,17 @@
   "sources": [
    "new_projects"
   ]
+ },
+ "tc4dy/CVE-2026-114938-Toolkit": {
+  "first_seen": "2026-11-19",
+  "sources": [
+   "new_projects"
+  ]
+ },
+ "oliweb-ch/oliweb-proof-of-work-for-cap": {
+  "first_seen": "2026-11-19",
+  "sources": [
+   "new_projects"
+  ]
  }
 }

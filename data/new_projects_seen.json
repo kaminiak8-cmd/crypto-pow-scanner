@@ -149,5 +149,7 @@
  "qsdm-tech/QSDM": "2026-11-17",
  "Poseidonas/payload-reviews": "2026-11-17",
  "yan-stone-computer/NexcoreCtrlComputer": "2026-11-17",
- "Share-coin/Sharecoin": "2026-11-17"
+ "Share-coin/Sharecoin": "2026-11-17",
+ "tc4dy/CVE-2026-114938-Toolkit": "2026-11-19",
+ "oliweb-ch/oliweb-proof-of-work-for-cap": "2026-11-19"
 }
