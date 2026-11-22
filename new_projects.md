@@ -1,10 +1,8 @@
-# Projekty bez CoinGecko - 2026-11-21
+# Projekty bez CoinGecko - 2026-11-22
 
 ## Nowe dzisiaj
 
-| repo                     |   stars |   commits_30d |   authors_30d | miner_release   | flags                 | description                                                                           |
-|:-------------------------|--------:|--------------:|--------------:|:----------------|:----------------------|:--------------------------------------------------------------------------------------|
-| armaxcoincore/armax-coin |       2 |           100 |             1 | True            | testnet,proof-of-work | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures. |
+Brak nowych (albo pierwsze uruchomienie).
 
 ## Wczesne okazje (profil Pearl)
 
@@ -12,50 +10,50 @@ Punkty: mlody projekt, wydany miner, pula/stratum, mainnet, whitepaper, fair lau
 
 | repo                                         |   early_score |   age_days |   stars |   commits_30d | early_flags                            | description                                                                                |
 |:---------------------------------------------|--------------:|-----------:|--------:|--------------:|:---------------------------------------|:-------------------------------------------------------------------------------------------|
-| armaxcoincore/armax-coin                     |            15 |         30 |       2 |           100 | miner,pool,mainnet,paper,upcoming,docs | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
-| VibeHash/vibehash                            |            14 |         22 |       2 |           100 | miner,mainnet,paper,upcoming,docs      | Vibe Hash: a proof-of-useful-work cryptocurrency testnet where miners train AI models      |
-| genoryn/genoryn                              |            13 |         19 |      14 |            70 | miner,mainnet,paper,fair,docs          | Genoryn Krypton (GNR): quantum-resistant (post-quantum), private-by-default proof-of-work  |
-| pars5555/pcoin                               |            13 |        112 |      10 |            53 | miner,pool,mainnet,fair,docs           | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| Instinctes/nightfall                         |            12 |        101 |       3 |           100 | miner,mainnet,fair,docs                | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
-| SilasEigen/neb                               |            11 |         16 |       6 |            64 | miner,mainnet,paper,docs               | Proof of work where each mining attempt is one deterministic integer training step of a sm |
-| requant-network/requant                      |             8 |         43 |       2 |            19 | miner,fair,docs                        | Requant (RQT): experimental proof-of-work coin using a deep int8 network on GPU tensor cor |
-| qsdm-tech/QSDM                               |             7 |        213 |       3 |           100 | mainnet,fair,docs                      | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| vearl-verified-compute/vearl                 |             7 |         42 |      18 |             8 | miner,upcoming,docs                    | Vearl - verified compute: a proof-of-useful-work chain                                     |
-| SHalimoosavi/SAYANJALI-BLOCKCHAIN            |             5 |        133 |       3 |            98 | mainnet,docs                           | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
-| Bitcoboost/bitcoboost-core                   |             5 |         92 |       3 |             1 | mainnet,paper,fair,red                 | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
-| circularmarke/kite-depin-compute-attestation |             4 |         78 |       4 |             3 | mainnet                                | DePIN Edge AI Compute Attestation & x402 Node Staking Verification Protocol on Kite Chain  |
-| ChronoCoders/ferrous                         |             4 |        222 |       6 |            19 | mainnet,docs                           | A Rust-built Layer 1 blockchain with RandomX PoW, BIP39 wallets, Shamir recovery, and post |
-| devdavidejesus/btc-toolkit                   |             3 |        228 |       6 |            36 | docs                                   | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
-| iuna-labs/iuna                               |             3 |        118 |       2 |           100 | mainnet,red,docs                       | L1 cryptocurrency designed to keep power temporary.                                        |
+| armaxcoincore/armax-coin                     |            15 |         31 |       2 |           100 | miner,pool,mainnet,paper,upcoming,docs | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
+| VibeHash/vibehash                            |            14 |         23 |       2 |           100 | miner,mainnet,paper,upcoming,docs      | Vibe Hash: a proof-of-useful-work cryptocurrency testnet where miners train AI models      |
+| genoryn/genoryn                              |            13 |         20 |      14 |            72 | miner,mainnet,paper,fair,docs          | Genoryn Krypton (GNR): quantum-resistant (post-quantum), private-by-default proof-of-work  |
+| pars5555/pcoin                               |            13 |        113 |      11 |            52 | miner,pool,mainnet,fair,docs           | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
+| Instinctes/nightfall                         |            12 |        102 |       4 |           100 | miner,mainnet,fair,docs                | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
+| SilasEigen/neb                               |            11 |         17 |       7 |            67 | miner,mainnet,paper,docs               | Proof of work where each mining attempt is one deterministic integer training step of a sm |
+| requant-network/requant                      |             8 |         44 |       2 |            19 | miner,fair,docs                        | Requant (RQT): experimental proof-of-work coin using a deep int8 network on GPU tensor cor |
+| qsdm-tech/QSDM                               |             7 |        214 |       3 |           100 | mainnet,fair,docs                      | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
+| vearl-verified-compute/vearl                 |             7 |         43 |      18 |             8 | miner,upcoming,docs                    | Vearl - verified compute: a proof-of-useful-work chain                                     |
+| SHalimoosavi/SAYANJALI-BLOCKCHAIN            |             5 |        134 |       3 |           100 | mainnet,docs                           | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
+| Bitcoboost/bitcoboost-core                   |             5 |         93 |       3 |             1 | mainnet,paper,fair,red                 | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
+| circularmarke/kite-depin-compute-attestation |             4 |         79 |       4 |             4 | mainnet                                | DePIN Edge AI Compute Attestation & x402 Node Staking Verification Protocol on Kite Chain  |
+| ChronoCoders/ferrous                         |             4 |        223 |       6 |            19 | mainnet,docs                           | A Rust-built Layer 1 blockchain with RandomX PoW, BIP39 wallets, Shamir recovery, and post |
+| devdavidejesus/btc-toolkit                   |             3 |        229 |       6 |            26 | docs                                   | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
+| iuna-labs/iuna                               |             3 |        119 |       2 |           100 | mainnet,red,docs                       | L1 cryptocurrency designed to keep power temporary.                                        |
 
 ## Watch (wynik 5-7)
 
 | repo                              |   early_score |   age_days |   stars |   commits_30d | early_flags            | description                                                                                |
 |:----------------------------------|--------------:|-----------:|--------:|--------------:|:-----------------------|:-------------------------------------------------------------------------------------------|
-| qsdm-tech/QSDM                    |             7 |        213 |       3 |           100 | mainnet,fair,docs      | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| vearl-verified-compute/vearl      |             7 |         42 |      18 |             8 | miner,upcoming,docs    | Vearl - verified compute: a proof-of-useful-work chain                                     |
-| SHalimoosavi/SAYANJALI-BLOCKCHAIN |             5 |        133 |       3 |            98 | mainnet,docs           | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
-| Bitcoboost/bitcoboost-core        |             5 |         92 |       3 |             1 | mainnet,paper,fair,red | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
+| qsdm-tech/QSDM                    |             7 |        214 |       3 |           100 | mainnet,fair,docs      | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
+| vearl-verified-compute/vearl      |             7 |         43 |      18 |             8 | miner,upcoming,docs    | Vearl - verified compute: a proof-of-useful-work chain                                     |
+| SHalimoosavi/SAYANJALI-BLOCKCHAIN |             5 |        134 |       3 |           100 | mainnet,docs           | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
+| Bitcoboost/bitcoboost-core        |             5 |         93 |       3 |             1 | mainnet,paper,fair,red | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
 
 ## Ranking kandydatow
 
 | repo                                          |   stars |   commits_30d |   authors_30d | miner_release   | flags                            | description                                                                                |
 |:----------------------------------------------|--------:|--------------:|--------------:|:----------------|:---------------------------------|:-------------------------------------------------------------------------------------------|
-| Instinctes/nightfall                          |       3 |           100 |             2 | True            | proof-of-work                    | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
+| Instinctes/nightfall                          |       4 |           100 |             2 | True            | proof-of-work                    | Money that refuses to snitch. A privacy Layer-1 with a supply anyone can prove.            |
 | VibeHash/vibehash                             |       2 |           100 |             2 | True            | testnet,miner                    | Vibe Hash: a proof-of-useful-work cryptocurrency testnet where miners train AI models      |
 | armaxcoincore/armax-coin                      |       2 |           100 |             1 | True            | testnet,proof-of-work            | Proof-of-Work Layer-1 testnet with NIST FIPS 204 (ML-DSA-65) post-quantum signatures.      |
-| genoryn/genoryn                               |      14 |            70 |             0 | True            | pool,proof-of-work,gpu           | Genoryn Krypton (GNR): quantum-resistant (post-quantum), private-by-default proof-of-work  |
+| genoryn/genoryn                               |      14 |            72 |             0 | True            | pool,proof-of-work,gpu           | Genoryn Krypton (GNR): quantum-resistant (post-quantum), private-by-default proof-of-work  |
 | qsdm-tech/QSDM                                |       3 |           100 |             1 | False           | miner,proof-of-work,pow,gpu      | QSDM - a post-quantum-secure ledger with two-tier nodes (CPU-only PoE+BFT validators, GPU  |
-| iuna-labs/iuna                                |       2 |           100 |             1 | False           | proof-of-work,pow,l1             | L1 cryptocurrency designed to keep power temporary.                                        |
+| SHalimoosavi/SAYANJALI-BLOCKCHAIN             |       3 |           100 |             1 | False           | mainnet,proof-of-work            | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
 | AhmedMohammed100/quantum-resistant-blockchain |       2 |           100 |             1 | False           | proof-of-work                    | A post-quantum blockchain building toward production readiness, with capped QBC, authentic |
-| SHalimoosavi/SAYANJALI-BLOCKCHAIN             |       3 |            98 |             1 | False           | mainnet,proof-of-work            | Layer-1 proof-of-work blockchain written in Go. Native asset: SYJ. Deterministic validatio |
-| SilasEigen/neb                                |       6 |            64 |             1 | True            | proof-of-work                    | Proof of work where each mining attempt is one deterministic integer training step of a sm |
-| pars5555/pcoin                                |      10 |            53 |             1 | True            | proof-of-work,pow,randomx,layer1 | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
-| devdavidejesus/btc-toolkit                    |       6 |            36 |             2 | False           | pool,proof-of-work               | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
+| iuna-labs/iuna                                |       2 |           100 |             1 | False           | proof-of-work,pow,l1             | L1 cryptocurrency designed to keep power temporary.                                        |
+| SilasEigen/neb                                |       7 |            67 |             1 | True            | proof-of-work                    | Proof of work where each mining attempt is one deterministic integer training step of a sm |
+| pars5555/pcoin                                |      11 |            52 |             1 | True            | proof-of-work,pow,randomx,layer1 | PCoin (PCN) - the coin anyone can mine. Independent Layer-1 blockchain: Bitcoin Core fork  |
 | requant-network/requant                       |       2 |            19 |             2 | True            | testnet,proof-of-work,gpu        | Requant (RQT): experimental proof-of-work coin using a deep int8 network on GPU tensor cor |
+| devdavidejesus/btc-toolkit                    |       6 |            26 |             2 | False           | pool,proof-of-work               | Read and verify Bitcoin from your terminal: OP_RETURN, inscriptions, raw transactions, off |
 | vearl-verified-compute/vearl                  |      18 |             8 |             1 | True            |                                  | Vearl - verified compute: a proof-of-useful-work chain                                     |
 | ChronoCoders/ferrous                          |       6 |            19 |             1 | False           | proof-of-work,pow,randomx,layer1 | A Rust-built Layer 1 blockchain with RandomX PoW, BIP39 wallets, Shamir recovery, and post |
 | tc4dy/CVE-2026-114938-Toolkit                 |       8 |             6 |             1 | False           | proof-of-work                    | CVE-2026-114938 Java4Shell (CVSS 9.2) Base64 heap overflow Red/Blue toolkit. JDK/CPU expos |
-| circularmarke/kite-depin-compute-attestation  |       4 |             3 |             1 | False           |                                  | DePIN Edge AI Compute Attestation & x402 Node Staking Verification Protocol on Kite Chain  |
+| circularmarke/kite-depin-compute-attestation  |       4 |             4 |             1 | False           |                                  | DePIN Edge AI Compute Attestation & x402 Node Staking Verification Protocol on Kite Chain  |
 | Bitcoboost/bitcoboost-core                    |       3 |             1 |             1 | False           | proof-of-work,gpu                | BitcoBoost (BCBO) — Proof-of-Work cryptocurrency node (Bitcoin Core fork)                  |
 | frstrtr/p2pool-merged-v36                     |       2 |             2 |             1 | False           | stratum,pool,proof-of-work,pow   | P2Pool V36 merged mining — Decentralized PoW mining pool. LTC/DGB+DOGE scrypt, forked from |
