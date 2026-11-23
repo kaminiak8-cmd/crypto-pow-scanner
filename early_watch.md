@@ -1,4 +1,4 @@
-# Bardzo wczesny radar - 2026-11-22
+# Bardzo wczesny radar - 2026-11-23
 
 Heurystyka: nowe prace arXiv o dowodzie (uzytecznej) pracy z sygnalami budowy lancucha i mlode repozytoria przed mainnetem. Nie jest to ocena inwestycyjna.
 
@@ -12,5 +12,5 @@ Heurystyka: nowe prace arXiv o dowodzie (uzytecznej) pracy z sygnalami budowy la
 
 | score | age_days | stars | flags | repo | description | url |
 |---|---|---|---|---|---|---|
-| 5 | 23 | 2 | paper,genesis,net,miner | VibeHash/vibehash | Vibe Hash: a proof-of-useful-work cryptocurrency testnet where miners train AI m | https://github.com/VibeHash/vibehash |
-| 4 | 43 | 18 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
+| 5 | 24 | 2 | paper,genesis,net,miner | VibeHash/vibehash | Vibe Hash: a proof-of-useful-work cryptocurrency testnet where miners train AI m | https://github.com/VibeHash/vibehash |
+| 4 | 44 | 18 | genesis,net,miner | vearl-verified-compute/vearl | Vearl - verified compute: a proof-of-useful-work chain | https://github.com/vearl-verified-compute/vearl |
